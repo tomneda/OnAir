@@ -475,7 +475,7 @@ std::string Db::exportAs(const Filter& f, const std::string& format) const {
 #else
             gmtime_r(&s, &g);
 #endif
-            char d[16], t[16];
+            char d[32], t[32];
             snprintf(d, sizeof d, "%04d%02d%02d", g.tm_year + 1900, g.tm_mon + 1, g.tm_mday);
             snprintf(t, sizeof t, "%02d%02d%02d", g.tm_hour, g.tm_min, g.tm_sec);
             tag("CALL", r.ident);

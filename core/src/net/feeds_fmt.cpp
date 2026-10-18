@@ -63,7 +63,7 @@ std::string sbsLine(const FeedAdsbFrame& f, int64_t wallMs) {
 #else
     localtime_r(&secs, &lt);
 #endif
-    char when[40];
+    char when[64];
     snprintf(when, sizeof when, "%04d/%02d/%02d,%02d:%02d:%02d.%03d", lt.tm_year + 1900, lt.tm_mon + 1, lt.tm_mday, lt.tm_hour, lt.tm_min, lt.tm_sec, ms);
 
     std::string call, alt, gs, trk, lat, lon, vr, sq, alert, emerg, spi, gnd;
@@ -255,13 +255,13 @@ void latLonNmea(double lat, double lon, std::string& slat, char& ns, std::string
 }
 std::string utcHms(const GnssFix& f) {
     if (!f.timeValid) return "";
-    char b[16];
+    char b[32];
     snprintf(b, sizeof b, "%02d%02d%06.3f", f.hour, f.minute, f.second);
     return b;
 }
 std::string utcDmy(const GnssFix& f) {
     if (!f.timeValid) return "";
-    char b[16];
+    char b[32];
     snprintf(b, sizeof b, "%02d%02d%02d", f.day, f.month, f.year >= 0 ? f.year % 100 : 0);
     return b;
 }
@@ -273,7 +273,7 @@ std::string gnssRmc(const GnssFix& f) {
     latLonNmea(f.latDeg, f.lonDeg, slat, ns, slon, ew);
     const double kn = f.hasVelocity ? f.speedMps * 1.943844 : 0;
     const double cog = f.hasVelocity ? f.courseDeg : 0;
-    char body[160];
+    char body[256];
     snprintf(body, sizeof body, "GPRMC,%s,A,%s,%c,%s,%c,%.2f,%.2f,%s,,,A", utcHms(f).c_str(), slat.c_str(), ns, slon.c_str(), ew, kn, cog, utcDmy(f).c_str());
     return nmeaLine(body);
 }
@@ -282,7 +282,7 @@ std::string gnssGga(const GnssFix& f) {
     if (!f.valid) return "";
     std::string slat, slon; char ns = 'N', ew = 'E';
     latLonNmea(f.latDeg, f.lonDeg, slat, ns, slon, ew);
-    char body[192];
+    char body[256];
     snprintf(body, sizeof body, "GPGGA,%s,%s,%c,%s,%c,1,%02d,%.1f,%.1f,M,0.0,M,,", utcHms(f).c_str(), slat.c_str(), ns, slon.c_str(), ew,
              std::max(0, std::min(12, f.nSats)), f.hdop > 0 ? f.hdop : 99.9, f.heightM);
     return nmeaLine(body);

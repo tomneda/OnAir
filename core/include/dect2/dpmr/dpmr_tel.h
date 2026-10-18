@@ -62,7 +62,7 @@ constexpr size_t kDpmrLogMax = 300;
 inline std::string dpmrId(int64_t v) {
     if (v < 0) return "?";
     if (v == 0xFFFFFF) return "ALL";
-    char b[16];
+    char b[32];
     snprintf(b, sizeof b, "%08lld", (long long)v);
     return b;
 }

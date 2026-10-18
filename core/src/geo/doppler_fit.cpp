@@ -226,7 +226,7 @@ void formatTle(const Tle& t, std::string& l1, std::string& l2) {
       const long dd = doy - ((153 * mp + 2) / 5) + 1;   // day of month
       dayOfYear = cum[m - 1] + dd + (m > 2 && leap(y) ? 1 : 0); }
     // B* as the TLE's mantissa/exponent: sign, five digits (assumed leading point), exponent
-    char bs[16];
+    char bs[32];
     {
         double v = t.bstar; const char sgn = v < 0 ? '-' : ' '; v = std::fabs(v);
         int ex = 0;
@@ -240,12 +240,12 @@ void formatTle(const Tle& t, std::string& l1, std::string& l2) {
         }
     }
     {
-        char c[96];
+        char c[128];
         snprintf(c, sizeof c, "1 %05dU 00000A   %02ld%012.8f  .00000000  00000-0 %s 0  999", t.norad, y % 100, dayOfYear + frac, bs);
         l1 = c;
         l1.resize(68, ' ');
     }
-    char c2[96];
+    char c2[128];
     snprintf(c2, sizeof c2, "2 %05d %8.4f %8.4f %07ld %8.4f %8.4f %11.8f%5d", t.norad, t.inclDeg, std::fmod(std::fmod(t.raanDeg, 360) + 360, 360),
              std::lround(t.ecc * 1e7), std::fmod(std::fmod(t.argpDeg, 360) + 360, 360), std::fmod(std::fmod(t.meanAnomDeg, 360) + 360, 360), t.meanMotion, 0);
     l2 = c2;

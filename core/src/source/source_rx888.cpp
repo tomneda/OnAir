@@ -77,7 +77,7 @@ public:
     }
     void noteDisconnected() override { gone_ = true; }
     int control(bool in, uint8_t request, uint16_t value, uint16_t index, uint8_t* data, uint16_t length) override {
-        const uint8_t type = (uint8_t)((in ? LIBUSB_ENDPOINT_IN : LIBUSB_ENDPOINT_OUT) | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE);
+        const uint8_t type = (uint8_t)(in ? LIBUSB_ENDPOINT_IN : LIBUSB_ENDPOINT_OUT) | (uint8_t)LIBUSB_REQUEST_TYPE_VENDOR | (uint8_t)LIBUSB_RECIPIENT_DEVICE;
         return libusb_control_transfer(h_, type, request, value, index, data, length, kControlTimeoutMs);
     }
     bool superSpeed() const override { return ss_; }

@@ -42,8 +42,8 @@ enum Request : uint8_t {
     kSetTxvgaGain = 21,   // transmit: the TX VGA, 0..47 dB in 1 dB steps (index = gain, one byte comes back)
 };
 constexpr uint8_t kTxEndpoint = 0x02;   // transmit: samples go out on bulk endpoint 0x02 as signed 8-bit I/Q pairs
-constexpr uint8_t kOut = LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT;
-constexpr uint8_t kIn = LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN;
+constexpr uint8_t kOut = (uint8_t)LIBUSB_REQUEST_TYPE_VENDOR | (uint8_t)LIBUSB_RECIPIENT_DEVICE | (uint8_t)LIBUSB_ENDPOINT_OUT;
+constexpr uint8_t kIn = (uint8_t)LIBUSB_REQUEST_TYPE_VENDOR | (uint8_t)LIBUSB_RECIPIENT_DEVICE | (uint8_t)LIBUSB_ENDPOINT_IN;
 constexpr uint8_t kRxEndpoint = 0x81;
 constexpr int kControlTimeoutMs = 1000;
 constexpr int kTransferCount = 8;
